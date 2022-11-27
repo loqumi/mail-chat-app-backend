@@ -35,8 +35,6 @@ export const getUserById = async (req, res) => {
 
 export const createUser = async (req, res) => {
   const { name } = req.body;
-  const nameExist = await getUserByName(name);
-  if (nameExist) return;
   try {
     await User.create({
       name: name,

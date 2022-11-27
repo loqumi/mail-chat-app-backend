@@ -1,12 +1,21 @@
 import User from "../models/UserModel.js";
 
+const createUser = async (name) => {
+  await User.create({
+    name: name,
+  });
+};
+
 export const Login = async (req, res) => {
-  const user = await User.findOne({
+  let user = await User.findOne({
     where: {
       name: req.body.name,
     },
   });
-  if (!user) return res.status(404).json({ msg: "user not found" });
+  // if (!user) return res.status(404).json({ msg: "user not found" });
+  if (!user) {
+    user = createUser(req.body.name);
+  }
   const uuid = user.uuid;
   const name = user.name;
   res
