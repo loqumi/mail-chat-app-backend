@@ -1,7 +1,7 @@
 import User from "../models/UserModel.js";
 
 const createUser = async (name) => {
-  await User.create({
+  return await User.create({
     name: name,
   });
 };
