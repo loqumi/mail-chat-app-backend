@@ -7,25 +7,23 @@ const createUser = async (name) => {
 };
 
 export const Login = async (req, res) => {
+  const name = req.body.name
   let user = await User.findOne({
     where: {
-      name: req.body.name,
+      name: name,
     },
   });
-  // if (!user) return res.status(404).json({ msg: "user not found" });
   if (!user) {
-    user = createUser(req.body.name);
+    user = createUser(name);
   }
-  const uuid = user.uuid;
-  const name = user.name;
   res
-    .cookie("token", user.name, {
+    .cookie("token", name, {
       httpOnly: true,
       sameSite: "none",
       secure: true,
     })
     .status(200)
-    .json({ uuid, name });
+    .json({ name });
 };
 
 export const Me = async (req, res) => {
@@ -49,3 +47,4 @@ export const logOut = (req, res) => {
     .status(200)
     .json({ msg: "You have logged out" });
 };
+
